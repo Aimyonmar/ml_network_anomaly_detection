@@ -39,7 +39,7 @@
 - [x] `scripts/auto_log.py` 就位
 - [x] `docs/schema.sql` 就位（手写，不让 AI 写；已落盘 3 张表）
 - [x] `backend/requirements.txt`（pymysql 同步驱动，决策已记入 DECISIONS.md）+ `.env.example`
-- [ ] `git init` + 首次 commit
+- [x] `git init` + 首次 commit（c6ab434；本地占位身份 ml-dev，未配置全局）
 - [x] `python scripts/auto_log.py check` 跑一遍（当前 1 条警告为 models.py docstring 示例文字被正则误匹配，D1 建模型类后自动对齐）
 - [ ] 记第一条日志：`/log 今天：建项目骨架……`
 

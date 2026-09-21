@@ -1,0 +1,39 @@
+# backend/requirements.txt
+# Python 3.12.5 兼容；安装命令：pip install -r requirements.txt
+
+#python-multipart 必须显式写。FastAPI 的文件上传靠它，没装的话 UploadFile 直接报 500，而且报错信息很不直观（新手常在这里卡半天）
+#passlib[bcrypt] 在 3.12 上偶尔会警告 bcrypt 版本过旧，但不影响用。如果安装时报编译错，改成 pip install passlib bcrypt 即可，不用慌
+#用法
+#cd backend
+#pip install -r requirements.txt
+# 以后每当你决定新增一个库（比如第二周想加 celery），流程是：
+# 先在 requirements.txt 里加一行 → 2. 再 pip install → 3. 再写代码。
+# 顺序不要反。先装包再写代码，至少能保证清单和项目实际用的东西一致。
+# Web
+fastapi==0.115.*
+uvicorn[standard]==0.30.*
+python-multipart==0.0.9        # 文件上传必需，fastapi 不自带
+
+# 数据库（同步链路，决策见 DECISIONS.md 2026-09-21）
+sqlalchemy==2.0.*
+alembic==1.13.*
+pymysql==1.1.*
+cryptography==43.*             # pymysql 的 sha256 认证依赖，别删
+
+# 认证
+python-jose[cryptography]==3.3.*
+passlib[bcrypt]==1.7.*
+
+# ML
+pandas==2.2.*
+numpy==2.0.*
+scikit-learn==1.5.*
+joblib==1.4.*
+matplotlib==3.9.*
+seaborn==0.13.*
+
+# 工程
+loguru==0.7.*
+pydantic==2.9.*
+pydantic-settings==2.5.*       # config.py 的 BaseSettings 依赖，pydantic v2 已拆包，不装会 ImportError
+pytest==8.3.*

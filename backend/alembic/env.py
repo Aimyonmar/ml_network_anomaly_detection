@@ -5,6 +5,11 @@ from sqlalchemy import pool
 
 from alembic import context
 
+# 同步迁移写法（决策见 DECISIONS.md 2026-09-21 pymysql 条）
+# 禁止使用 asyncio.run / run_async_migrations
+from app.config import settings
+from app.models import Base
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -16,9 +21,10 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
+
+# 数据库 URL 从应用配置注入（同步 pymysql 驱动），密码不写进 alembic.ini
+config.set_main_option("sqlalchemy.url", settings.database_url)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

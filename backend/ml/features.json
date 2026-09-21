@@ -1,0 +1,15 @@
+{
+  "_comment": "特征配置文件。每条 feature 描述一个训练/推理输入字段。字段说明：name=特征名（与训练数据列名一致）, type=numeric|categorical|boolean|target, dtype=python numpy/pandas dtype 字符串, default=缺失时填充默认值。model 块在训练完成后由 train.py 回填实际算法与版本。",
+  "features": [
+    {"name": "duration", "type": "numeric", "dtype": "float64", "default": 0.0},
+    {"name": "protocol_type", "type": "categorical", "dtype": "str", "default": "tcp"},
+    {"name": "src_bytes", "type": "numeric", "dtype": "int64", "default": 0},
+    {"name": "dst_bytes", "type": "numeric", "dtype": "int64", "default": 0},
+    {"name": "label", "type": "target", "dtype": "int64", "default": 0, "_comment": "0=正常 1=异常"}
+  ],
+  "model": {
+    "algorithm": "TBD",
+    "version": "0.0.0",
+    "_comment": "训练完成后由 train.py 回填，例如 random_forest / xgboost / isolation_forest"
+  }
+}

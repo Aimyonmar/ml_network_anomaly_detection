@@ -28,6 +28,7 @@
 - ML：pandas + numpy + scikit-learn + joblib + matplotlib/seaborn（**只做 sklearn 生态**）
 - 其他：python-multipart（文件上传，FastAPI 不自带，必须显式安装）、loguru、pytest
 - 依赖清单：`backend/requirements.txt`（这是白名单：没写在里面的包不许引入）
+- **虚拟环境：所有项目依赖必须安装到项目本地的虚拟环境中（如 `venv/` 或 `.venv/`），严禁安装到全局 Python 环境。开发前必须先激活虚拟环境再执行 `pip install`。**
 
 **一致性要求：**
 - 依赖文件与本文必须一致：若本文写 SQLAlchemy 2.0，requirements.txt 里绝不能是 1.4.*；本文写同步 pymysql，驱动绝不能是 asyncmy。改一处同步另一处。

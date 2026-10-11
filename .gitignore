@@ -18,6 +18,9 @@ backend/ml/data/
 *.pkl
 *.joblib
 
+# 上传文件与检测产物（D5，不入库）
+backend/uploads/
+
 # 编辑器/系统
 .vscode/
 .idea/

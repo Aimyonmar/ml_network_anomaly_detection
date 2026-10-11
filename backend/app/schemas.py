@@ -36,3 +36,49 @@ class UserOut(BaseModel):
     role: str
     status: int
     created_at: datetime
+
+
+# ---------- 检测任务（D5） ----------
+class TaskOut(BaseModel):
+    """任务详情/列表项（前端轮询 status 用）。"""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    file_name: str
+    total_rows: int
+    attack_rows: int
+    normal_rows: int
+    status: str
+    error_msg: str | None
+    cost_seconds: float | None
+    created_at: datetime
+    updated_at: datetime
+
+
+class TaskCreatedData(BaseModel):
+    """POST /tasks 立即返回的载荷。"""
+
+    task_id: int
+    status: str
+
+
+class ResultItem(BaseModel):
+    """结果分页单条。"""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    row_no: int
+    prediction: str
+    attack_type: str | None
+    confidence: float | None
+
+
+class PageData(BaseModel):
+    """通用分页包装（list + total + page + page_size）。"""
+
+    total: int
+    page: int
+    page_size: int
+    items: list

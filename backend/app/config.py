@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     MODEL_PATH: str = "ml/artifacts/model.pkl"
     FEATURES_PATH: str = "ml/features.json"
 
+    # 上传（D5）。相对路径以 backend/ 为基准（cwd=backend 启动）
+    UPLOAD_DIR: str = "uploads"
+    MAX_UPLOAD_MB: int = 50  # CONTEXT.md §4：单文件 ≤ 50MB
+    DETECTION_BATCH_SIZE: int = 2000  # 推理/写库分批大小，防大文件一次性占内存
+
     @property
     def database_url(self) -> str:
         return (

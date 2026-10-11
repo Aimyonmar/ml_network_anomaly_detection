@@ -26,5 +26,13 @@ Thumbs.db
 # 本地草稿（非交付物）
 tishi.md
 
+# settings 缓存内容不入库（目录结构与 pip.ini 保留）
+settings/pip-cache/*
+settings/matplotlib/*
+settings/logs/*
+!settings/pip-cache/.gitkeep
+!settings/matplotlib/.gitkeep
+!settings/logs/.gitkeep
+
 # 项目文档（不提交到远程仓库）
 Graduation project/

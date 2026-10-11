@@ -29,6 +29,12 @@
 - 其他：python-multipart（文件上传，FastAPI 不自带，必须显式安装）、loguru、pytest
 - 依赖清单：`backend/requirements.txt`（这是白名单：没写在里面的包不许引入）
 - **虚拟环境：所有项目依赖必须安装到项目本地的虚拟环境中（如 `venv/` 或 `.venv/`），严禁安装到全局 Python 环境。开发前必须先激活虚拟环境再执行 `pip install`。**
+- **缓存与产物落盘位置（settings 约束）：凡不是必须装在 C 盘的依赖缓存/下载/临时产物，一律归入根目录 `settings/` 并按子目录分类，禁止默认写到 C 盘：**
+  - `settings/pip-cache/`：pip 下载缓存（已通过用户级环境变量 `PIP_CONFIG_FILE` → `settings/pip/pip.ini` 全局重定向）
+  - `settings/matplotlib/`：matplotlib 字体/配置缓存（已通过用户级环境变量 `MPLCONFIGDIR` 重定向）
+  - `settings/logs/`：loguru 运行日志
+  - `settings/pip/`：`pip.ini` 配置文件本体
+  - 新增需要落盘的缓存类目录时，在 `settings/` 下建子目录并回来补本节清单
 
 **一致性要求：**
 - 依赖文件与本文必须一致：若本文写 SQLAlchemy 2.0，requirements.txt 里绝不能是 1.4.*；本文写同步 pymysql，驱动绝不能是 asyncmy。改一处同步另一处。
@@ -47,6 +53,7 @@
 ```
 项目根/
   CONTEXT.md / CHANGELOG.md / DECISIONS.md / BUGS.md / METRICS.md / TODO.md
+  settings/                    # 非 C 盘缓存/配置区（pip-cache、matplotlib、logs、pip/pip.ini）
   scripts/auto_log.py          # 自动归档与一致性校验脚本（只读 git 和真实文件）
   screenshots/                 # 图号命名：图6-4_检测报告页.png
   docs/

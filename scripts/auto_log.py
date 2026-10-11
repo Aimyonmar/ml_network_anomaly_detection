@@ -95,7 +95,9 @@ def cmd_check():
     mod = ROOT / "backend/app/models.py"
     if sql.exists() and mod.exists():
         tables = re.findall(r"CREATE TABLE (\w+)", sql.read_text(encoding="utf-8"))
-        classes = re.findall(r"class (\w+)\(", mod.read_text(encoding="utf-8"))
+        # 按 __tablename__ 计数：SQLAlchemy 惯例一张表恰好一个；
+        # 旧写法 class Xxx( 会把 Base 抽象基类和 docstring 示例误计入
+        classes = re.findall(r'__tablename__\s*=\s*["\'](\w+)["\']', mod.read_text(encoding="utf-8"))
         if len(tables) != len(classes):
             errs.append(f"schema.sql 有 {len(tables)} 张表，models.py 有 {len(classes)} 个模型类，数量不一致")
 

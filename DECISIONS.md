@@ -8,3 +8,5 @@
 | 2026-09-21 | 场景定为「校园网旁路监测 + 钓鱼 URL 自查」双模式 | 泛泛的「网络入侵检测系统」 | 拉开与通用入侵检测题的差异化，且有合规落地说法 | 需求分析要写清两种模式的边界，不能混着讲 |
 | 2026-09-21 | 模型是系统的一个模块，设计文档篇幅系统 65% / 算法 20% / 其他 15% | 以算法为主线的写法 | 评审口径是软件工程「需求-设计-实现-测试」，纯算法写法会被判「不是软工项目」 | 算法章节必须压缩，部分实验细节只能放附录 |
 | 2026-09-21 | 数据库访问用同步驱动 pymysql（注意：与上一条"检测异步化"不冲突——业务层用 BackgroundTasks 后台跑检测+轮询，DB 层仍同步） | 异步驱动 asyncmy + async SQLAlchemy | 7 天排期的验收标准无驱动级异步要求；同步栈配置简单、无 MissingGreenlet 等坑；D5 用后台任务+状态轮询即可实现 1 秒返回 task_id | 高并发 DB 吞吐上限低；设计文档不体现异步数据库技术（项目流量规模可接受） |
+| 2026-10-11 | 非 C 盘缓存统一归入根目录 settings/（pip-cache/matplotlib/logs），用用户级环境变量 PIP_CONFIG_FILE→settings/pip/pip.ini、MPLCONFIGDIR→settings/matplotlib 全局重定向 | ① 维持默认（缓存放 C 盘 AppData）；② 仅项目内临时设环境变量（不持久） | 用户要求"能不装 C 盘就装 settings 并按类分好、尽量全局生效"；用户级环境变量对本机所有项目持久生效，pip.ini 集中管理 | pip.ini 必须纯 ASCII（含中文注释会被 cp936 解析拒绝）；换机/换盘需改 pip.ini 的 cache-dir 与环境变量两处 |
+| 2026-10-11 | venv 残留的 numpy2.5.3/matplotlib3.11.2/alembic1.20.0 一律降级对齐 requirements.txt 白名单（→2.0.2/3.9.4/1.13.3） | 保留新版并反向修改 requirements.txt | CONTEXT.md §1 规定 requirements.txt 是白名单且"依赖文件与本文必须一致"；scikit-learn 1.5 仅兼容 numpy 2.0，不降级装不上；残留包只是早期画图产物，PNG 已生成不影响 | 降级后若设计文档用到新版特性需另议；本次未触发功能回退 |

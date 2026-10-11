@@ -37,11 +37,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(tasks.router, prefix="/tasks", tags=["tasks"])
-app.include_router(results.router, prefix="/results", tags=["results"])
-app.include_router(admin.router, prefix="/admin", tags=["admin"])
-app.include_router(model_api.router, prefix="/model", tags=["model_api"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["tasks"])
+app.include_router(results.router, prefix="/api/v1/results", tags=["results"])
+app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
+app.include_router(model_api.router, prefix="/api/v1/model", tags=["model_api"])
 
 
 @app.get("/health", tags=["health"])

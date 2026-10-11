@@ -23,6 +23,7 @@ cryptography==43.*             # pymysql 的 sha256 认证依赖，别删
 # 认证
 python-jose[cryptography]==3.3.*
 passlib[bcrypt]==1.7.*
+bcrypt==4.0.1                   # 显式钉死：passlib 1.7.4 与 bcrypt 5.0 不兼容（__about__ 移除 + >72字节抛错），决策见 DECISIONS.md 2026-10-11
 
 # ML
 pandas==2.2.*

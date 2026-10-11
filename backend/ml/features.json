@@ -1,15 +1,229 @@
 {
   "_comment": "特征配置文件。每条 feature 描述一个训练/推理输入字段。字段说明：name=特征名（与训练数据列名一致）, type=numeric|categorical|boolean|target, dtype=python numpy/pandas dtype 字符串, default=缺失时填充默认值。model 块在训练完成后由 train.py 回填实际算法与版本。",
   "features": [
-    {"name": "duration", "type": "numeric", "dtype": "float64", "default": 0.0},
-    {"name": "protocol_type", "type": "categorical", "dtype": "str", "default": "tcp"},
-    {"name": "src_bytes", "type": "numeric", "dtype": "int64", "default": 0},
-    {"name": "dst_bytes", "type": "numeric", "dtype": "int64", "default": 0},
-    {"name": "label", "type": "target", "dtype": "int64", "default": 0, "_comment": "0=正常 1=异常"}
+    {
+      "name": "duration",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "protocol_type",
+      "type": "categorical",
+      "dtype": "str"
+    },
+    {
+      "name": "service",
+      "type": "categorical",
+      "dtype": "str"
+    },
+    {
+      "name": "flag",
+      "type": "categorical",
+      "dtype": "str"
+    },
+    {
+      "name": "src_bytes",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_bytes",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "land",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "wrong_fragment",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "urgent",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "hot",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_failed_logins",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "logged_in",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_compromised",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "root_shell",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "su_attempted",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_root",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_file_creations",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_shells",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_access_files",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "num_outbound_cmds",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "is_host_login",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "is_guest_login",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "count",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "srv_count",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "serror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "srv_serror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "rerror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "srv_rerror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "same_srv_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "diff_srv_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "srv_diff_host_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_count",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_srv_count",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_same_srv_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_diff_srv_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_same_src_port_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_srv_diff_host_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_serror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_srv_serror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_rerror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "dst_host_srv_rerror_rate",
+      "type": "numeric",
+      "dtype": "float64"
+    },
+    {
+      "name": "label",
+      "type": "target",
+      "dtype": "int64",
+      "_comment": "0=正常 1=异常"
+    }
   ],
   "model": {
-    "algorithm": "TBD",
-    "version": "0.0.0",
-    "_comment": "训练完成后由 train.py 回填，例如 random_forest / xgboost / isolation_forest"
+    "algorithm": "random_forest",
+    "version": "1.0.0",
+    "trained_at": "2026-10-11 08:54:50 UTC",
+    "n_features": 41,
+    "accuracy": 0.9989,
+    "roc_auc": 1.0,
+    "cross_test": {
+      "dataset": "KDDTest+",
+      "accuracy": 0.7691,
+      "roc_auc": 0.96
+    }
   }
 }

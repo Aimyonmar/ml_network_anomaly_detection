@@ -14,7 +14,7 @@
 |---|---|---|---|---|---|
 | D1 | ①后端 | uvicorn 能起；/health 返回 200；alembic upgrade head 后 MySQL 能看到三张表 | 2026-09-21 | 2026-10-11 | 停滞约20天后补跑；实际建库名为 anomaly_detection（非计划中的 ids_demo，以 config.py/.env 为准）；requirements.txt 与 venv 残留版本冲突（numpy/matplotlib/alembic），已按白名单降级 |
 | D2 | ④+① | 注册→登录→拿 token→/auth/me 返回用户名；库里密码是 $2b$…；token 篡改返回 401 | 2026-09-22 | 2026-10-11 | passlib 1.7.4 与 bcrypt 5.0 冲突（__about__ 移除 + >72字节抛错），经确认降级 bcrypt 到 4.0.1 并钉死写入 requirements.txt；路由前缀对齐 CONTEXT.md §4 的 /api/v1 |
-| D3 | ③ML | train.py 不报错；产出 model.pkl + features.json；有基线对照数字；混淆矩阵 png 存在 | 2026-09-23 | — | — |
+| D3 | ③ML | train.py 不报错；产出 model.pkl + features.json；有基线对照数字；混淆矩阵 png 存在 | 2026-09-23 | 2026-10-11 | NSL-KDD 数据从 GitHub 镜像获取（Kaggle 需 token、UNB 官网不可达）；Acc 99.89% 触发规则8泄漏排查，实证非泄漏（同分布内插虚高），补官方 KDDTest+ 跨集评估 76.91% 作真实泛化口径，两口径均记入 METRICS.md |
 | D4 | ③ML | predict.py 能跑并打印吞吐；**故意删一列重跑能看到明确报错**（必做） | 2026-09-24 | — | — |
 | D5 | ①后端 | 上传 1 万行 CSV，1 秒内返回 task_id；轮询 status 从 pending 变 success；stats 总数与 count(*) 一致 | 2026-09-25 | — | — |
 | D6 | ②前端 | 能登录、能上传、报告页三张图渲染且中文不乱码；关掉后端时页面提示错误而非白屏 | 2026-09-26 | — | — |
@@ -56,7 +56,7 @@
 
 ### 后续（暂不执行）
 - [x] D2：注册/登录/JWT 鉴权链路（2026-10-11 完成：6 项链路验证全过，入库密码 $2b$12$ 前缀，篡改 token 401）
-- [ ] D3：train.py 首次跑出数字 → 填写 METRICS.md 的 ## FINAL
+- [x] D3：train.py 首次跑出数字（2026-10-11 完成：双口径 99.89%/76.91% 已记入 METRICS.md 实验记录；FINAL 留【待填】待你 /final 拍板，总监建议用跨集口径）
 - [ ] D4：predict.py + 列序校验
 - [ ] D5：上传与异步检测链路
 - [ ] D6：前端四页 + 图表

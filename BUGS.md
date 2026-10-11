@@ -3,4 +3,8 @@
 |---|---|---|---|---|---|
 | 2026-09-21 | （示例）训练准确率 99.8%，明显异常 | StandardScaler 在 split 之前 fit 了全量数据，造成数据泄漏 | 用 Pipeline 包裹，保证先 split 再 fit_transform 训练集 | 1.5h | 5.2 特征工程 |
 | 2026-09-21 | （示例）上传大文件报 504 Gateway Timeout | detection 逻辑同步执行，阻塞 worker | 改 BackgroundTasks 异步 + 前端轮询 status | 3h | 5.3 性能优化 |
+| 2026-10-11 | pip install 用默认源卡死 8 分钟无产出，日志全空 | 默认 PyPI 源在国内网络下下载大包（numpy/scipy）超时；且命令在沙箱内运行时网络被沙箱拦截，pip 静默挂起不报错 | 改用清华镜像 `-i https://pypi.tuna.tsinghua.edu.cn/simple`，并用 dangerouslyDisableSandbox 关闭沙箱放行联网 | 约10min | 4.x 环境搭建 |
+| 2026-10-11 | 设好 PIP_CONFIG_FILE 后 pip 仍报 "Configuration file contains invalid cp936 characters" | Windows 下 pip 用系统代码页 cp936 读取 ini，pip.ini 里的中文注释字节无法解码 | pip.ini 注释全部改为纯 ASCII 英文 | 约15min | 附录 环境配置 |
+| 2026-10-11 | hash_password 抛 ValueError: password cannot be longer than 72 bytes + AttributeError: module 'bcrypt' has no attribute '__about__' | passlib 1.7.4 的后端探测逻辑依赖 bcrypt.__about__.__version__，而 bcrypt 4.1+ 已删除 __about__；bcrypt 5.0 又把 >72 字节密码由静默截断改为抛 ValueError，passlib 探测用的超长测试串直接触发异常导致后端加载失败 | requirements.txt 显式钉死 bcrypt==4.0.1（passlib 官方兼容的最后一个版本），security.py 不动 | 约20min | 4.x 认证模块 |
+| 2026-10-11 | auto_log.py check 报 "schema.sql 3 张表，models.py 5 个模型类" | 校验正则 `class (\w+)\(` 把 SQLAlchemy 的 Base 抽象基类、以及 models.py docstring 里的示例文字 `class Xxx(` 都误计入 | 校验脚本改为按 `__tablename__ = "..."` 计数（一张表恰好一个，符合 SQLAlchemy 惯例），规避基类与注释误匹配 | 约15min | 附录 工程规范 |
 | 【待填】 | 【待填】 | 【待填】 | 【待填】 | 【待填】 | 【待填】 |

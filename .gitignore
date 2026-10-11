@@ -34,9 +34,11 @@ tishi.md
 settings/pip-cache/*
 settings/matplotlib/*
 settings/logs/*
+settings/npm-cache/*
 !settings/pip-cache/.gitkeep
 !settings/matplotlib/.gitkeep
 !settings/logs/.gitkeep
+!settings/npm-cache/.gitkeep
 
 # 项目文档（不提交到远程仓库）
 Graduation project/

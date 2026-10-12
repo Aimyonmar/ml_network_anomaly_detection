@@ -32,6 +32,7 @@ scikit-learn==1.5.*
 joblib==1.4.*
 matplotlib==3.9.*
 seaborn==0.13.*
+scapy>=2.5.0                  # V2 产品化新增（CONTEXT.md §10.4）：pcap 流特征提取，playground 实测转正
 
 # 工程
 loguru==0.7.*

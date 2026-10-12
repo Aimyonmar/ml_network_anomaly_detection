@@ -18,7 +18,8 @@ from fastapi import UploadFile
 from app.config import settings
 
 CHUNK_SIZE = 1024 * 1024  # 1MB
-ALLOWED_SUFFIXES = {".csv"}
+# V2 产品化（CONTEXT.md §10.2）：新增 .pcap（流特征提取走 ml/flow_extract.py）
+ALLOWED_SUFFIXES = {".csv", ".pcap"}
 
 
 class UploadValidationError(ValueError):

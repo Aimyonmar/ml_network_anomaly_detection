@@ -1,7 +1,7 @@
 """检测任务路由（D5）。
 
 接口（CONTEXT.md §4）：
-- POST /api/v1/tasks        上传 csv，立即返回 task_id（pending），BackgroundTasks 异步检测
+- POST /api/v1/tasks        上传 csv/pcap（V2），立即返回 task_id（pending），BackgroundTasks 异步检测
 - GET  /api/v1/tasks        我的任务列表（分页）
 - GET  /api/v1/tasks/{id}   任务详情（前端轮询 status）
 - GET  /api/v1/tasks/{id}/results  结果分页（t_detection_result 可能几十万行，禁全量）
@@ -51,7 +51,7 @@ def _get_owned_task(db: Session, task_id: int, user: User) -> DetectionTask | JS
 @router.post("", status_code=201, summary="上传文件创建检测任务（异步）")
 def create_task(
     background: BackgroundTasks,
-    file: UploadFile = File(..., description="检测流量 csv（≤50MB）"),
+    file: UploadFile = File(..., description="检测流量文件 csv/pcap（≤50MB）"),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):

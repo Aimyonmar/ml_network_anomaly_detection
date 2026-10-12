@@ -1,0 +1,354 @@
+{
+  "_comment": "CIC-IDS2017 特征契约（V2）。列名已 strip；与 flow_extract.pcap 提取器命名对齐。",
+  "features": [
+    {
+      "name": "Destination Port",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow Duration",
+      "type": "numeric"
+    },
+    {
+      "name": "Total Fwd Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Total Backward Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Total Length of Fwd Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Total Length of Bwd Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Packet Length Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Packet Length Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Packet Length Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Packet Length Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Packet Length Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Packet Length Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Packet Length Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Packet Length Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow Bytes/s",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow Packets/s",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow IAT Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow IAT Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow IAT Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Flow IAT Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd IAT Total",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd IAT Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd IAT Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd IAT Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd IAT Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd IAT Total",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd IAT Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd IAT Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd IAT Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd IAT Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd PSH Flags",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd PSH Flags",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd URG Flags",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd URG Flags",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Header Length",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Header Length",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Packets/s",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Packets/s",
+      "type": "numeric"
+    },
+    {
+      "name": "Min Packet Length",
+      "type": "numeric"
+    },
+    {
+      "name": "Max Packet Length",
+      "type": "numeric"
+    },
+    {
+      "name": "Packet Length Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Packet Length Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Packet Length Variance",
+      "type": "numeric"
+    },
+    {
+      "name": "FIN Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "SYN Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "RST Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "PSH Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "ACK Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "URG Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "CWE Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "ECE Flag Count",
+      "type": "numeric"
+    },
+    {
+      "name": "Down/Up Ratio",
+      "type": "numeric"
+    },
+    {
+      "name": "Average Packet Size",
+      "type": "numeric"
+    },
+    {
+      "name": "Avg Fwd Segment Size",
+      "type": "numeric"
+    },
+    {
+      "name": "Avg Bwd Segment Size",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Header Length.1",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Avg Bytes/Bulk",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Avg Packets/Bulk",
+      "type": "numeric"
+    },
+    {
+      "name": "Fwd Avg Bulk Rate",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Avg Bytes/Bulk",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Avg Packets/Bulk",
+      "type": "numeric"
+    },
+    {
+      "name": "Bwd Avg Bulk Rate",
+      "type": "numeric"
+    },
+    {
+      "name": "Subflow Fwd Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Subflow Fwd Bytes",
+      "type": "numeric"
+    },
+    {
+      "name": "Subflow Bwd Packets",
+      "type": "numeric"
+    },
+    {
+      "name": "Subflow Bwd Bytes",
+      "type": "numeric"
+    },
+    {
+      "name": "Init_Win_bytes_forward",
+      "type": "numeric"
+    },
+    {
+      "name": "Init_Win_bytes_backward",
+      "type": "numeric"
+    },
+    {
+      "name": "act_data_pkt_fwd",
+      "type": "numeric"
+    },
+    {
+      "name": "min_seg_size_forward",
+      "type": "numeric"
+    },
+    {
+      "name": "Active Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Active Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Active Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Active Min",
+      "type": "numeric"
+    },
+    {
+      "name": "Idle Mean",
+      "type": "numeric"
+    },
+    {
+      "name": "Idle Std",
+      "type": "numeric"
+    },
+    {
+      "name": "Idle Max",
+      "type": "numeric"
+    },
+    {
+      "name": "Idle Min",
+      "type": "numeric"
+    }
+  ],
+  "model": {
+    "algorithm": "HistGradientBoosting",
+    "version": "v2",
+    "trained_at": "2026-10-12 17:28:13",
+    "n_features": 78,
+    "sample_mode": "full",
+    "baseline": {
+      "algorithm": "majority(Normal)",
+      "accuracy": 0.8032,
+      "recall_attack": 0.0,
+      "note": "全猜多数类：攻击全漏，acc=正常占比——说明 acc 数字本身无意义"
+    },
+    "scores": {
+      "RandomForest": {
+        "algorithm": "RandomForest",
+        "fit_seconds": 106.6,
+        "infer_seconds": 1.93,
+        "throughput_rps": 292923,
+        "accuracy": 0.9989,
+        "precision_attack": 0.9972,
+        "recall_attack": 0.9974,
+        "f1_attack": 0.9973,
+        "roc_auc": 0.9998
+      },
+      "HistGradientBoosting": {
+        "algorithm": "HistGradientBoosting",
+        "fit_seconds": 30.8,
+        "infer_seconds": 2.34,
+        "throughput_rps": 241413,
+        "accuracy": 0.9987,
+        "precision_attack": 0.9937,
+        "recall_attack": 0.9996,
+        "f1_attack": 0.9967,
+        "roc_auc": 0.9998
+      }
+    }
+  }
+}

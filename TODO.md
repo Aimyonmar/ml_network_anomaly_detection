@@ -93,6 +93,6 @@
 - [x] C 现代数据集与召回：下载 CIC-IDS2017 + train_v2.py + threshold_optimizer.py（召回≥90% 目标）+ config MODEL_VERSION 双模型 + METRICS V2-PRODUCT 区（2026-10-12 完成，GitLab 镜像 8 CSV 2.83M 行，HistGB acc=0.9987/召回 0.9996/AUC=0.9998 同分布口径，阈值扫描后部署取 0.5 记 DECISIONS，commit b2e07d8）
 - [x] D 告警处置：t_alert 表 alembic 迁移 + alert_service.py（埋点/防火墙命令生成/webhook）+ alerts.py 三接口 + schemas（2026-10-12 完成，commit 0edb593，导入冒烟通过；alerts 实为四接口：列表/计数/ack/dismiss）
 - [x] E 前端：AlertView（轮询红点+一键复制+ack/dismiss）+ UploadView 支持 .pcap（2026-10-12 完成，commit 52d3792，vue-tsc+build 通过）
-- [ ] F 端到端验证：alembic+uvicorn+双模型全链路实测+webhook httpbin 实测+vue-tsc/build+记录回填+commit（待 MySQL80 管理员启动后执行）
+- [x] F 端到端验证：alembic+uvicorn+双模型全链路实测+webhook httpbin 实测+vue-tsc/build+记录回填+commit（2026-10-12 完成：t_alert 迁移落库；三脚本合计 30 项通过——v2 csv 200 行 attack=99 cost=2.148s、告警 ack/dismiss/count/401 全过、pcap 流提取 2 流 cost=1.606s、generate_alerts 去重/IP 命令生成全过、webhook generic+feishu 本地接收实测送达；测试数据即测即清；vue-tsc+build 已于阶段E通过）
 
 

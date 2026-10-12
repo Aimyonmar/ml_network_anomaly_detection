@@ -82,4 +82,12 @@ HistGB：Acc=0.9987, Recall(Attack)=0.9996, F1=0.9967, AUC=0.9998（同分布口
 ### v2 推理冒烟（2026-10-12 实测）
 - 合成全零特征记录 1 条 → Normal（置信度 0.9993）
 - Wednesday CSV 前 3 行（BENIGN 流）→ 全部 Normal（置信度 0.9994~0.9998）
-- 端到端全链路（注册→上传→告警→ack）实跑数字：端到端验证完成后回填此处【待填】
+
+### v2 端到端全链路实测（2026-10-12 阶段F，三脚本合计 30 项通过，跑完即删）
+- **v2 csv 检测**：Wednesday 抽样 200 行（100 BENIGN + 100 攻击）上传→success，total=200 attack=99 normal=101，cost_seconds=2.148s，stats 三数一致（200）
+- **攻击识别率**：99/100 攻击行被判定 Attack（1 条漏判/特征退化，同分布样本内）
+- **告警链路**：高置信（≥0.90）Attack 行去重后落库 92 条 open（99 命中去重到 92 独立源）；ack 200、重复 ack 400、dismiss 200、count 递减 92→90、无 token 访问 401
+- **MachineLearningCVE 无 Source IP 列**：该格式告警 src_key 回退行引用（row-N）并给人工复核文案——设计内行为（models.py 注释）
+- **pcap 链路**：scapy 合成 pcap（1 条 SYN 流 + 1 条 UDP 双向流）上传→success，流提取 2 条 cost=1.606s；纯 SYN 合成流判 Normal（良性特征输出，非链路缺陷）
+- **generate_alerts IP 分支**：3 命中同源去重→2 条落库，置信度降序，src_key=IPv4 全部生成 New-NetFirewallRule 命令，count=2
+- **webhook**（本地 HTTPServer 接收实测）：generic {"text"} 与 feishu {"msg_type":"text"} 格式均送达 200；目标不可达仅 warning 不抛异常；URL 空=不外发

@@ -46,14 +46,22 @@ def load_cicids_dataframe(data_dir: Path | str = DATA_DIR, sample: int = 0) -> p
     schema = load_cicids_schema(list(df.columns))
     feats = schema.feature_cols
 
-    # 特征转数值：无法解析的 → NaN
+    # 特征转数值：无法解析的 → NaN（注意：字符串 'Infinity' 会被解析成 float inf，isna 抓不到）
     for col in feats:
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    bad_mask = df[feats].isna().any(axis=1)
+    arr = df[feats].to_numpy(dtype=np.float64, na_value=np.nan)
+    # NaN/±Inf（CICFlowMeter 除零产物）整行剔除
+    nonfinite_mask = ~np.isfinite(arr).all(axis=1)
+    # 超出 float32 上限的有限大数：sklearn 内部转 float32 会溢出成 inf，同样剔除
+    over_f32_mask = (np.abs(arr) > np.finfo(np.float32).max).any(axis=1)
+    bad_mask = nonfinite_mask | over_f32_mask
     bad_count = int(bad_mask.sum())
     if bad_count:
-        print(f"[data] 剔除含 NaN/Inf 特征行 {bad_count} 行（CICFlowMeter 除零等产物，如实记录）")
+        print(
+            f"[data] 剔除 NaN/Inf/超 float32 大数行 {bad_count} 行"
+            f"（NaN/Inf={int(nonfinite_mask.sum())}，超限={int(over_f32_mask.sum())}，如实记录）"
+        )
         df = df[~bad_mask]
 
     # label 二值化（BENIGN→0，其余→1）

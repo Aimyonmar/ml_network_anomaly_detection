@@ -1,5 +1,7 @@
 import http from './http'
 import type {
+  AlertCountData,
+  AlertItem,
   ApiResponse,
   PageData,
   ResultItem,
@@ -34,4 +36,16 @@ export const taskApi = {
       params: { page, page_size: pageSize },
     }),
   stats: (id: number) => http.get<never, ApiResponse<StatsData>>(`/tasks/${id}/stats`),
+}
+
+export const alertApi = {
+  list: (status: string, page: number, pageSize: number) =>
+    http.get<never, ApiResponse<PageData<AlertItem>>>('/alerts', {
+      params: { status, page, page_size: pageSize },
+    }),
+  // 高频轮询静默失败（菜单红点），避免后端不可达时刷屏
+  count: () =>
+    http.get<never, ApiResponse<AlertCountData>>('/alerts/count', { _silent: true }),
+  ack: (id: number) => http.put<never, ApiResponse<AlertItem>>(`/alerts/${id}/ack`),
+  dismiss: (id: number) => http.put<never, ApiResponse<AlertItem>>(`/alerts/${id}/dismiss`),
 }

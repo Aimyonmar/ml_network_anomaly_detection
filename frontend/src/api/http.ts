@@ -3,6 +3,13 @@ import { ElMessage } from 'element-plus'
 import { useAuthStore } from '../stores/auth'
 import router from '../router'
 
+// 自定义配置：_silent=true 的请求失败时不弹全局提示（菜单红点等高频轮询用）
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    _silent?: boolean
+  }
+}
+
 const http = axios.create({
   baseURL: '/api/v1',
   timeout: 15000,
@@ -23,7 +30,7 @@ http.interceptors.response.use(
     const body = resp.data
     if (body && typeof body === 'object' && 'code' in body) {
       if (body.code >= 200 && body.code < 300) return body
-      ElMessage.error(body.msg || '请求失败')
+      if (!resp.config._silent) ElMessage.error(body.msg || '请求失败')
       return Promise.reject(new Error(body.msg))
     }
     return body
@@ -35,6 +42,8 @@ http.interceptors.response.use(
       auth.logout()
       ElMessage.warning('登录已过期，请重新登录')
       router.push('/login')
+    } else if (error.config?._silent) {
+      // 高频轮询静默失败：不打扰用户
     } else if (!error.response) {
       ElMessage.error('无法连接后端服务，请确认服务已启动')
     } else {

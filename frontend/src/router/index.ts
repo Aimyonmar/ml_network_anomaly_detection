@@ -12,6 +12,7 @@ const router = createRouter({
       children: [
         { path: 'upload', name: 'upload', component: () => import('../views/UploadView.vue') },
         { path: 'tasks', name: 'tasks', component: () => import('../views/TaskListView.vue') },
+        { path: 'alerts', name: 'alerts', component: () => import('../views/AlertView.vue') },
         {
           path: 'tasks/:id/report',
           name: 'report',

@@ -1,11 +1,11 @@
 <template>
   <el-card>
-    <template #header>上传流量 CSV 文件</template>
+    <template #header>上传流量文件</template>
     <el-upload
       drag
       :auto-upload="false"
       :limit="1"
-      accept=".csv"
+      accept=".csv,.pcap"
       :file-list="fileList"
       :on-change="onFileChange"
       :on-exceed="onExceed"
@@ -13,10 +13,13 @@
     >
       <el-icon class="upload-icon"><UploadFilled /></el-icon>
       <div class="el-upload__text">
-        将 .csv 文件拖到此处，或<em>点击选择</em>
+        将 .csv / .pcap 文件拖到此处，或<em>点击选择</em>
       </div>
       <template #tip>
-        <div class="el-upload__tip">仅支持 .csv 文件，大小不超过 50MB</div>
+        <div class="el-upload__tip">
+          支持 .csv（NSL-KDD 41 列 / CIC-IDS2017 78 列，表头自动识别）与 .pcap
+          原始抓包（服务端解析流特征），大小不超过 50MB
+        </div>
       </template>
     </el-upload>
     <div class="actions">
@@ -61,8 +64,11 @@ function onFileChange(file: UploadFile) {
   createdTaskId.value = null
   const raw = file.raw
   if (!raw) return
-  if (!file.name.toLowerCase().endsWith('.csv')) {
-    ElMessage.error('仅支持 .csv 文件')
+  const ok = ['.csv', '.pcap'].some((ext) =>
+    file.name.toLowerCase().endsWith(ext),
+  )
+  if (!ok) {
+    ElMessage.error('仅支持 .csv 或 .pcap 文件')
     fileList.value = []
     currentFile.value = null
     return

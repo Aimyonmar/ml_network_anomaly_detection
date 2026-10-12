@@ -64,3 +64,21 @@ export interface StatsData {
   task_rows: { total_rows: number; attack_rows: number; normal_rows: number }
   cost_seconds: number | null
 }
+
+// ---------- V2 告警（product 分支） ----------
+export type AlertStatus = 'open' | 'acked' | 'dismissed'
+
+export interface AlertItem {
+  id: number
+  task_id: number
+  src_key: string
+  confidence: number
+  prediction: string
+  rule_cmd: string | null
+  status: AlertStatus
+  created_at: string
+}
+
+export interface AlertCountData {
+  open_count: number
+}

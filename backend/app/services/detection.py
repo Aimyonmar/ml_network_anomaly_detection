@@ -20,6 +20,7 @@ from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.models import DetectionResult, DetectionTask
+from app.services import alert_service
 from app.utils.file_io import safe_remove
 from ml import predict as ml_predict
 from ml import schema_registry
@@ -104,6 +105,7 @@ def run_detection(task_id: int, file_path: str) -> None:
         model = ml_predict.load_model(model_path)
         threshold = settings.MODEL_DECISION_THRESHOLD if settings.MODEL_VERSION == "v2" else 0.5
         attack_rows = 0
+        hits: list[dict] = []  # 高置信攻击命中（V2 告警源）
         total = len(records)
         for start in range(0, total, BATCH_SIZE):
             batch = records[start:start + BATCH_SIZE]
@@ -112,6 +114,12 @@ def run_detection(task_id: int, file_path: str) -> None:
             for i, r in enumerate(results):
                 if r["prediction"] == "Attack":
                     attack_rows += 1
+                    if r["confidence"] >= settings.ALERT_CONFIDENCE_THRESHOLD:
+                        hits.append({
+                            "row_no": start + i + 1,
+                            "confidence": r["confidence"],
+                            "src_key": (src_keys[start + i] if src_keys else "") or "",
+                        })
                 rows.append(DetectionResult(
                     task_id=task_id,
                     row_no=start + i + 1,  # 从 1 开始
@@ -132,6 +140,12 @@ def run_detection(task_id: int, file_path: str) -> None:
             f"[detection] task={task_id} success rows={total} attack={attack_rows} "
             f"model={settings.MODEL_VERSION} cost={elapsed:.2f}s"
         )
+        # V2 告警（Gap 4）：告警失败绝不影响任务成功态
+        try:
+            alert_service.generate_alerts(db, task_id, task.user_id, hits)
+        except Exception as alert_exc:
+            db.rollback()
+            logger.warning(f"[alert] 告警生成失败（不影响任务状态）：{alert_exc}")
     except Exception as exc:
         db.rollback()
         task = db.get(DetectionTask, task_id)

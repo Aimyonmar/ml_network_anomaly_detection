@@ -89,3 +89,31 @@ class DetectionResult(Base):
     confidence: Mapped[float | None] = mapped_column(Float, nullable=True, comment="置信度 0~1")
 
     __table_args__ = (Index("idx_task", "task_id"),)
+
+
+class Alert(Base):
+    """对应 t_alert（V2 产品化新增，Gap 4 告警与处置建议）。"""
+
+    __tablename__ = "t_alert"
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    task_id: Mapped[int] = mapped_column(BigInteger, nullable=False, comment="触发告警的检测任务")
+    user_id: Mapped[int] = mapped_column(BigInteger, nullable=False, comment="任务归属用户")
+    src_key: Mapped[str] = mapped_column(String(64), nullable=False, comment="攻击源(src ip；无 ip schema 用行引用)")
+    confidence: Mapped[float] = mapped_column(Float, nullable=False, comment="模型置信度 0~1")
+    prediction: Mapped[str] = mapped_column(String(20), nullable=False, server_default="Attack", comment="恒为 Attack")
+    rule_cmd: Mapped[str | None] = mapped_column(String(512), nullable=True, comment="处置建议命令（绝不自动执行）")
+    status: Mapped[str] = mapped_column(String(20), nullable=False, server_default="open", comment="open|acked|dismissed")
+    acked_by: Mapped[int | None] = mapped_column(BigInteger, nullable=True, comment="确认人 t_user.id")
+    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, server_default=func.current_timestamp())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, nullable=False,
+        server_default=func.current_timestamp(),
+        onupdate=func.current_timestamp(),
+    )
+
+    __table_args__ = (
+        Index("idx_user_status", "user_id", "status"),
+        Index("idx_alert_task", "task_id"),
+        Index("idx_src_time", "src_key", "created_at"),
+    )

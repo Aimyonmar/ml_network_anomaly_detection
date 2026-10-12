@@ -39,3 +39,22 @@ CREATE TABLE t_detection_result (
   confidence  FLOAT        DEFAULT NULL COMMENT '置信度 0~1',
   INDEX idx_task (task_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='检测结果明细表';
+-- ============ V2 产品化新增（product 分支，2026-10-12，SQL 已经用户批准） ============
+-- Gap 4 告警与处置建议：高置信攻击产出告警，rule_cmd 仅生成命令供人工执行，系统绝不自动阻断。
+
+CREATE TABLE t_alert (
+  id          BIGINT PRIMARY KEY AUTO_INCREMENT,
+  task_id     BIGINT       NOT NULL COMMENT '触发告警的检测任务',
+  user_id     BIGINT       NOT NULL COMMENT '任务归属用户',
+  src_key     VARCHAR(64)  NOT NULL COMMENT '攻击源(src ip；无 ip schema 用行引用)',
+  confidence  FLOAT        NOT NULL COMMENT '模型置信度 0~1',
+  prediction  VARCHAR(20)  NOT NULL DEFAULT 'Attack' COMMENT '恒为 Attack',
+  rule_cmd    VARCHAR(512) DEFAULT NULL COMMENT '处置建议命令（绝不自动执行）',
+  status      VARCHAR(20)  NOT NULL DEFAULT 'open' COMMENT 'open|acked|dismissed',
+  acked_by    BIGINT       DEFAULT NULL COMMENT '确认人 t_user.id',
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_user_status (user_id, status),
+  INDEX idx_alert_task (task_id),
+  INDEX idx_src_time (src_key, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='告警表（V2）';

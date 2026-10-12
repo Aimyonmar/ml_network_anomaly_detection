@@ -82,3 +82,25 @@ class PageData(BaseModel):
     page: int
     page_size: int
     items: list
+
+
+# ---------- 告警（V2 产品化，Gap 4） ----------
+class AlertItem(BaseModel):
+    """告警列表单条（含处置建议命令，供前端一键复制）。"""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    task_id: int
+    src_key: str
+    confidence: float
+    prediction: str
+    rule_cmd: str | None
+    status: str
+    created_at: datetime
+
+
+class AlertCountData(BaseModel):
+    """当前用户 open 告警数（菜单红点轮询用）。"""
+
+    open_count: int

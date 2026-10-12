@@ -13,7 +13,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import admin, auth, model_api, results, tasks
+from app.routers import admin, alerts, auth, model_api, results, tasks
 
 
 @asynccontextmanager
@@ -39,6 +39,7 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
 app.include_router(tasks.router, prefix="/api/v1/tasks", tags=["tasks"])
+app.include_router(alerts.router, prefix="/api/v1/alerts", tags=["alerts"])
 app.include_router(results.router, prefix="/api/v1/results", tags=["results"])
 app.include_router(admin.router, prefix="/api/v1/admin", tags=["admin"])
 app.include_router(model_api.router, prefix="/api/v1/model", tags=["model_api"])

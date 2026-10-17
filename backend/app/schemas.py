@@ -63,6 +63,20 @@ class TaskCreatedData(BaseModel):
     status: str
 
 
+class LiveScanRequest(BaseModel):
+    """POST /tasks/live 一键体检请求（V3，CONTEXT.md §11.2）。"""
+
+    duration: int = Field(default=60, description="抓包时长（秒），仅允许 30/60/120")
+
+
+class LiveScanData(BaseModel):
+    """一键体检创建响应：task_id 复用任务轮询与报告页。"""
+
+    task_id: int
+    status: str
+    duration: int
+
+
 class ResultItem(BaseModel):
     """结果分页单条。"""
 

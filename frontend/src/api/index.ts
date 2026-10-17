@@ -3,6 +3,7 @@ import type {
   AlertCountData,
   AlertItem,
   ApiResponse,
+  LiveScanData,
   PageData,
   ResultItem,
   StatsData,
@@ -26,6 +27,9 @@ export const taskApi = {
     fd.append('file', file)
     return http.post<never, ApiResponse<TaskCreatedData>>('/tasks', fd)
   },
+  // V3 一键体检：后端本机抓包，无需上传文件
+  live: (duration: number) =>
+    http.post<never, ApiResponse<LiveScanData>>('/tasks/live', { duration }),
   list: (page: number, pageSize: number) =>
     http.get<never, ApiResponse<PageData<TaskItem>>>('/tasks', {
       params: { page, page_size: pageSize },

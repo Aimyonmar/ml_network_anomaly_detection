@@ -91,3 +91,15 @@ HistGB：Acc=0.9987, Recall(Attack)=0.9996, F1=0.9967, AUC=0.9998（同分布口
 - **pcap 链路**：scapy 合成 pcap（1 条 SYN 流 + 1 条 UDP 双向流）上传→success，流提取 2 条 cost=1.606s；纯 SYN 合成流判 Normal（良性特征输出，非链路缺陷）
 - **generate_alerts IP 分支**：3 命中同源去重→2 条落库，置信度降序，src_key=IPv4 全部生成 New-NetFirewallRule 命令，count=2
 - **webhook**（本地 HTTPServer 接收实测）：generic {"text"} 与 feishu {"msg_type":"text"} 格式均送达 200；目标不可达仅 warning 不抛异常；URL 空=不外发
+
+## V3-PRODUCT 实验区（v3 分支，非项目口径，项目 FINAL 不受影响）
+
+### V3 一键体检端到端实测（2026-10-17，12/12 项通过，测试数据即测即清）
+
+- **一键体检（30s 窗口）**：POST /tasks/live→201 秒回 task_id→pending→running→success，抓本机默认网卡 74 条双向流，attack=0 normal=74，检测 cost_seconds=10.283s（不含 30s 抓包窗口），stats 三数一致（74）；scapy 2.8.0 + 非管理员权限 uvicorn 进程内抓包可用（本机原生后端，无需 Npcap）
+- **管理员下发（CLI）**：create_admin.py 下发→role=admin 入库→该账号登录返回 role=admin；同用户名重复下发被拒（rc=1，不提权不覆盖）
+- **注册回归**：新注册用户 role=user（下发制不受影响）
+- **体检并发拦截**：体检进行中重复发起 409；非 30/60/120 时长 400
+- **上传链路回归（v2 部署口径）**：CIC 78 列 csv 上传→success rows=2（V3 改动未破坏上传链路）
+- **既有行为备注**：nslkdd 41 列 csv 在 MODEL_VERSION=v2 部署下按 v2 契约校验失败（缺 CIC 列）→task failed 带明确 error_msg，属 V2 既有行为非 V3 回归（v1 模型切换需 .env 改 MODEL_VERSION=v1）
+

@@ -12,6 +12,8 @@
 - 轮询 status 从 pending 变 success
 - stats 总数与 count(*) 一致
 """
+import uuid
+from datetime import datetime
 from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, Query, UploadFile
@@ -23,8 +25,9 @@ from app.config import settings
 from app.database import get_db
 from app.deps import get_current_user
 from app.models import DetectionResult, DetectionTask, User
-from app.schemas import PageData, ResultItem, TaskCreatedData, TaskOut
+from app.schemas import LiveScanRequest, PageData, ResultItem, TaskCreatedData, TaskOut
 from app.services.detection import run_detection
+from app.services.live_capture import run_live_detection
 from app.utils.file_io import UploadValidationError, save_upload
 
 router = APIRouter()
@@ -76,6 +79,58 @@ def create_task(
         "code": 201,
         "msg": "ok",
         "data": TaskCreatedData(task_id=task.id, status=task.status).model_dump(),
+    }
+
+
+LIVE_DURATIONS = {30, 60, 120}  # CONTEXT.md §11.2：可选抓包窗口
+LIVE_PREFIX = "live_"           # CONTEXT.md §11.4：file_name 前缀标识任务来源
+
+
+@router.post("/live", status_code=201, summary="一键体检（部署机本机抓包，无需上传文件）")
+def create_live_task(
+    body: LiveScanRequest,
+    background: BackgroundTasks,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+):
+    if body.duration not in LIVE_DURATIONS:
+        return JSONResponse(
+            status_code=400,
+            content={"code": 400, "msg": f"抓包时长仅允许 {sorted(LIVE_DURATIONS)} 秒", "data": None},
+        )
+    running_live = (
+        db.query(DetectionTask)
+        .filter(
+            DetectionTask.file_name.like(f"{LIVE_PREFIX}%"),
+            DetectionTask.status.in_(["pending", "running"]),
+        )
+        .first()
+    )
+    if running_live is not None:
+        return JSONResponse(
+            status_code=409,
+            content={"code": 409, "msg": "已有一键体检正在进行中，请等待完成后再开始", "data": None},
+        )
+
+    # 预分配临时 pcap 路径，抓包服务直接写入，检测链路按普通 pcap 任务处理
+    upload_dir = Path(settings.UPLOAD_DIR)
+    upload_dir.mkdir(parents=True, exist_ok=True)
+    pcap_path = upload_dir / f"{LIVE_PREFIX}{uuid.uuid4().hex}.pcap"
+    task = DetectionTask(
+        user_id=user.id,
+        file_name=f"{LIVE_PREFIX}一键体检_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pcap",
+        file_path=str(pcap_path),
+        status="pending",
+    )
+    db.add(task)
+    db.commit()
+    db.refresh(task)
+
+    background.add_task(run_live_detection, task.id, body.duration)
+    return {
+        "code": 201,
+        "msg": "ok",
+        "data": {"task_id": task.id, "status": task.status, "duration": body.duration},
     }
 
 

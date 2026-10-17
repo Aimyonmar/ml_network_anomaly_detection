@@ -8,7 +8,14 @@
     </template>
     <el-table :data="items" v-loading="loading" empty-text="暂无任务，请先上传文件">
       <el-table-column prop="id" label="ID" width="70" />
-      <el-table-column prop="file_name" label="文件名" min-width="180" show-overflow-tooltip />
+      <el-table-column label="文件名" min-width="180" show-overflow-tooltip>
+        <template #default="{ row }">
+          <el-tag v-if="row.file_name.startsWith('live_')" type="success" size="small" class="live-tag">
+            一键体检
+          </el-tag>
+          <span>{{ row.file_name }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="状态" width="110">
         <template #default="{ row }">
           <el-tag :type="statusType(row.status)">{{ statusText(row.status) }}</el-tag>
@@ -141,5 +148,8 @@ onBeforeUnmount(() => clearTimeout(timer))
 .pager {
   margin-top: 16px;
   justify-content: flex-end;
+}
+.live-tag {
+  margin-right: 6px;
 }
 </style>

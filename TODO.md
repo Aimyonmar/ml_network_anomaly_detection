@@ -94,7 +94,7 @@
 - [x] D 告警处置：t_alert 表 alembic 迁移 + alert_service.py（埋点/防火墙命令生成/webhook）+ alerts.py 三接口 + schemas（2026-10-12 完成，commit 0edb593，导入冒烟通过；alerts 实为四接口：列表/计数/ack/dismiss）
 - [x] E 前端：AlertView（轮询红点+一键复制+ack/dismiss）+ UploadView 支持 .pcap（2026-10-12 完成，commit 52d3792，vue-tsc+build 通过）
 - [x] F 端到端验证：alembic+uvicorn+双模型全链路实测+webhook httpbin 实测+vue-tsc/build+记录回填+commit（2026-10-12 完成：t_alert 迁移落库；三脚本合计 30 项通过——v2 csv 200 行 attack=99 cost=2.148s、告警 ack/dismiss/count/401 全过、pcap 流提取 2 流 cost=1.606s、generate_alerts 去重/IP 命令生成全过、webhook generic+feishu 本地接收实测送达；测试数据即测即清；vue-tsc+build 已于阶段E通过）
-- [ ] G 管理员账号下发与加固（2026-10-17 立项记录，用户自查发现）：现状核实——注册接口无法自封 admin（RegisterRequest 只收 username/password，role 为服务端默认 'user'，恶意塞 role 字段会被 Pydantic 忽略），管理员实为手工改库下发；真差距=下发机制不正式 + admin 无登录失败锁定/操作审计。方案候选：create_admin 种子命令正式化下发 + 失败锁定 + 管理操作审计。【范围与动工优先级待用户拍板】
-- [ ] H V3 普通人零门槛输入评估（2026-10-17 立项记录，用户自查发现）：V2 已支持 pcap 直传+表头嗅探（离线转换已内置于系统），剩余差距="普通人不会抓 pcap"；方案候选：引导式上传 / 终端采集 agent / 浏览器插件。【范围待用户拍板，动工前先出评估清单】
+- [x] G 管理员账号下发与加固（2026-10-17 立项记录，用户自查发现）：现状核实——注册接口无法自封 admin（RegisterRequest 只收 username/password，role 为服务端默认 'user'，恶意塞 role 字段会被 Pydantic 忽略），管理员实为手工改库下发；真差距=下发机制不正式 + admin 无登录失败锁定/操作审计。方案候选：create_admin 种子命令正式化下发 + 失败锁定 + 管理操作审计。【范围与动工优先级待用户拍板】〔2026-10-17 加注：用户拍板后本期交付下发制——backend/scripts/create_admin.py（16 位随机强密码仅显示一次/已存在用户名拒绝提权与覆盖/注册接口永久只产普通用户），宪法 §11.3 固化；登录失败锁定与管理操作审计经拍板本期不做、留下期，见 DECISIONS 2026-10-17〕
+- [x] H V3 普通人零门槛输入评估（2026-10-17 立项记录，用户自查发现）：V2 已支持 pcap 直传+表头嗅探（离线转换已内置于系统），剩余差距="普通人不会抓 pcap"；方案候选：引导式上传 / 终端采集 agent / 浏览器插件。【范围待用户拍板，动工前先出评估清单】〔2026-10-17 加注：用户拍板形态=本机实时抓包一键体检（拒绝终端 agent），v3 分支当日收官——POST /tasks/live（30/60/120s 窗口→临时 pcap→复用 V2 流特征+v2 模型+告警链路）+ 前端体检卡片（倒计时轮询），宪法 §11.2 含诚实边界；实测 12/12 全过（30s 抓 74 流 cost=10.283s），详见 METRICS V3 区与 CHANGELOG 2026-10-17〕
 
 

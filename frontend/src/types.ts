@@ -38,6 +38,13 @@ export interface TaskCreatedData {
   status: TaskStatus
 }
 
+// ---------- V3 一键体检（v3 分支） ----------
+export interface LiveScanData {
+  task_id: number
+  status: TaskStatus
+  duration: number
+}
+
 export interface PageData<T> {
   total: number
   page: number

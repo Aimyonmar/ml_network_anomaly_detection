@@ -92,7 +92,7 @@ HistGB：Acc=0.9987, Recall(Attack)=0.9996, F1=0.9967, AUC=0.9998（同分布口
 - **generate_alerts IP 分支**：3 命中同源去重→2 条落库，置信度降序，src_key=IPv4 全部生成 New-NetFirewallRule 命令，count=2
 - **webhook**（本地 HTTPServer 接收实测）：generic {"text"} 与 feishu {"msg_type":"text"} 格式均送达 200；目标不可达仅 warning 不抛异常；URL 空=不外发
 
-## V3-PRODUCT 实验区（v3 分支，非项目口径，项目 FINAL 不受影响）
+## V3-PRODUCT 实验区（v3 分支，非 v1 口径，v1 FINAL 不受影响）
 
 ### V3 一键体检端到端实测（2026-10-17，12/12 项通过，测试数据即测即清）
 

@@ -42,7 +42,7 @@ def run_live_detection(task_id: int, duration: int) -> None:
         db.close()
 
     try:
-        # scapy 延迟导入：未装 scapy 的环境（项目 v1 链路）不受影响
+        # scapy 延迟导入：未装 scapy 的环境（v1 链路）不受影响
         from scapy.all import conf, sniff, wrpcap
 
         iface = conf.iface  # 系统默认路由网卡；高级用法（指定网卡）走 CLI，不在网页暴露

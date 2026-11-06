@@ -1,11 +1,11 @@
-"""【非项目范围·写来玩的】模拟流式实时检测。
+"""【非正式功能·实验原型】模拟流式实时检测。
 
 把 NSL-KDD 的 KDDTest+.csv 按设定速率逐条"喂"给模型，模拟实时流量，
 终端滚动显示每条判定的延迟与结果，Attack 行高亮告警，并与真实标签对照。
 
-与项目主线的关系（见 DECISIONS.md 2026-10-12 条）：
+与主项目的关系（见 DECISIONS.md 2026-10-12 条）：
 - 只读复用 backend/ml 的 model.pkl + features.json + predict.py，不改任何主线代码
-- 不碰 backend/app、不碰 requirements.txt 白名单、不进设计文档与评审
+- 不碰 backend/app、不碰 requirements.txt 白名单、不进正式发布范围
 
 用法（在项目根目录，venv 已激活）：
     python playground/sim_stream.py                 # 默认 10 条/秒回放 KDDTest+
@@ -18,7 +18,7 @@ import sys
 import time
 from pathlib import Path
 
-# 只读引入项目推理模块（backend/ml），不复制模型代码
+# 只读引入主项目推理模块（backend/ml），不复制模型代码
 BACKEND = Path(__file__).resolve().parent.parent / "backend"
 sys.path.insert(0, str(BACKEND))
 

@@ -1,4 +1,4 @@
-"""V2 训练脚本：CIC-IDS2017 二分类模型（product 分支，与项目 train.py/v1 模型共存）。
+"""V2 训练脚本：CIC-IDS2017 二分类模型（product 分支，与 v1 train.py/模型共存）。
 
 用法（backend/ 下执行）：
     python -m ml.train_v2                       # 全量训练（约 280 万行）
@@ -8,7 +8,7 @@
     ml/artifacts/model_v2.pkl          # 胜出模型 Pipeline
     ml/features_cicids.json            # 特征契约 + 双模型成绩单元数据
 
-严格遵守 CONTEXT.md §5（V2 继承项目硬规则）：
+严格遵守 CONTEXT.md §5（V2 继承 v1 硬规则）：
 1. train_test_split 先行，stratify=y, random_state=42，任何预处理之前
 2. 树模型无需缩放/独热（全数值特征），仍用 Pipeline 包裹保持结构一致
 3. 绝不只报 accuracy：P/R/F1、混淆矩阵、ROC-AUC、多数类基线全输出

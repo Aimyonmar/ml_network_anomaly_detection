@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     FEATURES_PATH: str = "ml/features.json"
 
     # ML V2（product 分支，CONTEXT.md §10）：双模型共存，MODEL_VERSION 切换
-    MODEL_VERSION: str = "v1"  # v1=NSL-KDD 项目模型（冻结）；v2=CIC-IDS2017
+    MODEL_VERSION: str = "v1"  # v1=NSL-KDD 模型（冻结）；v2=CIC-IDS2017
     MODEL_PATH_V2: str = "ml/artifacts/model_v2.pkl"
     FEATURES_PATH_V2: str = "ml/features_cicids.json"
     MODEL_DECISION_THRESHOLD: float = 0.5  # Attack 判定阈值（v2 经 threshold_optimizer 调优后回填 .env）

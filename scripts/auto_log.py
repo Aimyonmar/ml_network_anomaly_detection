@@ -123,7 +123,7 @@ def cmd_check():
     if not errs:
         print("[check] ✅ 全部通过")
     else:
-        print("[check] ⚠️ 发现以下问题，修完再提交设计文档：")
+        print("[check] ⚠️ 发现以下问题，修完再提交：")
         for i, e in enumerate(errs, 1):
             print(f"  {i}. {e}")
 

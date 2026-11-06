@@ -1,7 +1,7 @@
 """数据集 schema 注册表（V2 产品化，Gap 1：多格式输入）。
 
 三种 schema：
-- nslkdd    : 项目 v1 模型的 41 列（从 features.json 动态读取，与 v1 模型锁定同步）
+- nslkdd    : v1 模型的 41 列（从 features.json 动态读取，与 v1 模型锁定同步）
 - cicids2017: CIC-IDS2017 MachineLearningCVE / TrafficLabelling CSV。
               特征列从表头自动派生（列名去空白，兼容官方 CSV 前导空格怪癖），
               排除元数据列后全部按数值特征处理。
@@ -57,7 +57,7 @@ class DatasetSchema:
 
 
 def load_nslkdd_schema(features_path: Path | str | None = None) -> DatasetSchema:
-    """v1 项目 schema：41 列直接读 v1 模型的 features.json（冻结资产，保持同步）。"""
+    """v1 schema：41 列直接读 v1 模型的 features.json（冻结资产，保持同步）。"""
     p = Path(features_path) if features_path else ML_DIR / "features.json"
     cfg = json.loads(Path(p).read_text(encoding="utf-8"))
     cats = {f["name"] for f in cfg["features"]

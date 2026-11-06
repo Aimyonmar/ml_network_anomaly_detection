@@ -33,7 +33,7 @@ class FeatureMismatchError(ValueError):
 def load_expected_features(path: str | Path | None = None) -> list[str]:
     """读取 features json 中的训练特征列序（不含 target）。
 
-    path 为空时用 v1 项目契约（features.json，冻结资产）；v2 传 cicids 契约路径。
+    path 为空时用 v1 契约（features.json，冻结资产）；v2 传 cicids 契约路径。
     """
     p = Path(path) if path is not None else FEATURES_PATH
     cfg = json.loads(p.read_text(encoding="utf-8"))
@@ -88,7 +88,7 @@ def predict(
     单条 = 长度为 1 的列表，天然支持。
     decision_threshold：Attack 判定阈值（默认 0.5 = 与 v1 model.predict 等价）。
     V2 召回优先模式由 threshold_optimizer 给出更低阈值，经 config 注入；
-    v1 项目链路恒为 0.5，行为与定稿完全一致（冻结要求）。
+    v1 链路恒为 0.5，行为与定稿完全一致（冻结要求）。
     confidence 报模型最大类概率（阈值只影响判定，不影响置信度口径）。
     """
     validate_columns(records, expected)

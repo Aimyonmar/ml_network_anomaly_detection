@@ -34,12 +34,12 @@
 ## FINAL（写进摘要、结论、PPT 的数字，定型后不许改）
 Acc=0.7691, F1=0.7518, AUC=0.9600, throughput=14655条/秒
 
-> 口径声明：FINAL 采用官方 KDDTest+ 跨集评估口径（用户 2026-10-11 确认选项 A，见 DECISIONS.md）。同分布随机划分口径（Acc=0.9989）仅作对照写入设计文档泛化分析章节，不进摘要。F1 取 Attack 类。
+> 口径声明：FINAL 采用官方 KDDTest+ 跨集评估口径（用户 2026-10-11 确认选项 A，见 DECISIONS.md）。同分布随机划分口径（Acc=0.9989）仅作对照写入模型泛化分析说明，不作为对外主指标。F1 取 Attack 类。
 > throughput 实测口径（2026-10-11 D4）：KDDTest+ 全量 22,544 条批量推理，预热后连测 3 轮（27627/14655/14370 条/秒），取中位数 14655；含 DataFrame 构造时间，属保守值。测量机 i5-13500H/15.7GB。
 
 ---
 
-## V2-PRODUCT 实验区（product 分支，非项目口径，项目 FINAL 不受影响）
+## V2-PRODUCT 实验区（product 分支，非 v1 口径，v1 FINAL 不受影响）
 
 ### 数据集快照（v2）
 - 名称：CIC-IDS2017 MachineLearningCVE（8 份官方 CSV，GitLab 镜像下载，来源记 DECISIONS.md）
@@ -76,7 +76,7 @@ Acc=0.7691, F1=0.7518, AUC=0.9600, throughput=14655条/秒
 > 完整 19 档扫描表见 ml/artifacts/threshold_v2.json。0.05~0.95 全程召回 ≥0.994（目标 0.90 全程达成）。
 > 部署取 0.5 而非推荐 0.05 的理由与代价见 DECISIONS.md 2026-10-12 阈值条目。
 
-### V2-PRODUCT FINAL（产品页/README 引用，非项目摘要）
+### V2-PRODUCT FINAL（产品页/README 引用，非 v1 主指标）
 HistGB：Acc=0.9987, Recall(Attack)=0.9996, F1=0.9967, AUC=0.9998（同分布口径），决策阈值=0.5，告警置信门槛=0.90
 
 ### v2 推理冒烟（2026-10-12 实测）

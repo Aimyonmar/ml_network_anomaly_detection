@@ -10,7 +10,7 @@
 
 本项目是**「带智能检测模块的 Web 系统」**，不是「一个检测模型」。
 评审口径走软件工程「需求—设计—实现—测试」，模型只是 4.x 节中的一个模块。
-设计文档篇幅分配：系统部分约 65% / 算法约 20% / 其他约 15%。
+文档与实现重心：系统工程约 65% / 算法约 20% / 其他约 15%。
 
 任何功能决策优先保证：**系统能跑通、链路完整、可演示**。宁可功能降级，不能让链路断掉。
 
@@ -155,7 +155,7 @@ CREATE TABLE t_detection_result (
 - PUT  /api/v1/admin/users/{id}/status → 禁用/启用
 
 模型
-- GET /api/v1/model/info → 模型名、训练时间、特征数、版本（用于设计文档截图）
+- GET /api/v1/model/info → 模型名、训练时间、特征数、版本（用于界面与指标展示）
 - GET /health → 存活探针
 
 约束：所有接口给请求/响应示例与错误码；文件上传限制 `.csv/.parquet`，单文件 ≤ 50MB；校验列是否包含 `features.json` 所需列，缺失则返回明确字段级错误。
@@ -177,7 +177,7 @@ CREATE TABLE t_detection_result (
 
 ---
 
-## 6. 记录规范（设计文档素材来源，与代码同等重要）
+## 6. 记录规范（项目过程记录，与代码同等重要）
 
 | 文件 | 记什么 | 规则 |
 |---|---|---|
@@ -186,13 +186,13 @@ CREATE TABLE t_detection_result (
 | BUGS.md | 卡住超过 30 分钟的问题 | 「根因」必须写到具体机制，不能写「代码写错了」 |
 | METRICS.md | 每次跑模型的指标 | 坏结果也必须记；`## FINAL` 区块的数字将进入摘要/结论/PPT，定型后不许改 |
 | screenshots/ + docs/images-list.md | 界面与实验截图 | 命名 `图X-Y_说明.png`；index 由脚本生成，不手改 |
-| DATASET.md / LITERATURE.md / advisor.md | 数据集档案、文献卡片、指导人沟通记录 | 读一篇记一篇；每次沟通后立刻记 |
+| DATASET.md / LITERATURE.md / advisor.md | 数据集档案、文献卡片、项目指导沟通记录 | 读一篇记一篇；每次沟通后立刻记 |
 | TODO.md | 阶段任务与完成状态 | 只做勾选和加注，不删行、不改原文验收标准 |
 
 触发口令（发给「项目记录员」智能体）：
-`/log` 变更日志 ｜ `/decide` 决策 ｜ `/bug` 踩坑 ｜ `/metric` 录入指标 ｜ `/final` 定稿数字 ｜ `/report 本周` 汇总成设计文档素材
+`/log` 变更日志 ｜ `/decide` 决策 ｜ `/bug` 踩坑 ｜ `/metric` 录入指标 ｜ `/final` 定稿数字 ｜ `/report 本周` 汇总成项目周报
 
-一致性校验：每周至少运行一次 `python scripts/auto_log.py check`（建议在 git commit 前）。它会抓四类问题：FINAL 数字未对齐摘要/结论、schema.sql 与 models.py 表数不一致、DECISIONS 缺列、截图 orphan。
+一致性校验：每周至少运行一次 `python scripts/auto_log.py check`（建议在 git commit 前）。它会抓四类问题：FINAL 数字与对外口径不一致、schema.sql 与 models.py 表数不一致、DECISIONS 缺列、截图 orphan。
 
 ---
 
@@ -225,12 +225,12 @@ CREATE TABLE t_detection_result (
 
 ## 10. V2 产品化修正案（2026-10-12 追加，仅在 product 分支生效）
 
-> 本节是用户批准的产品化边界修正。**只追加本节，上文项目条款原文一字不改**；
-> 项目相关条款继续约束项目资产（见 10.3 冻结条款）。
+> 本节是用户批准的产品化边界修正。**只追加本节，上文 v1 资产条款原文一字不改**；
+> v1 相关条款继续约束 v1 资产（见 10.3 冻结条款）。
 
 ### 10.1 定位升级
 
-V2 目标：从「项目演示系统」升级为「可用的安全初筛产品」——
+V2 目标：从「v1 演示系统」升级为「可用的安全初筛产品」——
 支持现代数据集、多格式输入、召回优先调优、告警与处置建议。
 
 ### 10.2 边界修正（覆盖 §0/PROMPT_GLOBAL_DIRECTOR 中"本期不做"清单的对应项）
@@ -244,13 +244,13 @@ V2 目标：从「项目演示系统」升级为「可用的安全初筛产品�
 | 模型在线更新/自动重训练 | 仍不做（离线训练、人工换版本） |
 | 多租户/SaaS、商业部署、移动端、商业用途 | 仍不做 |
 
-### 10.3 项目冻结条款（最高优先级，与 §0 并列）
+### 10.3 v1 资产冻结条款（最高优先级，与 §0 并列）
 
 在 product 分支上，以下资产**不改、不删、不引用其数字进 V2 对比口径以外的地方**：
-- `docs/design/`、`docs/api.md`（项目文档）
-- `Graduation project/`（设计文档正文与配图）
-- `METRICS.md` 的 `## FINAL` 区块（项目定稿数字，永不改）
-- `backend/ml/model.pkl` + `backend/ml/features.json`（v1 项目模型，与 v2 共存不覆盖）
+- `docs/api.md`（接口文档）
+- `docs/diagrams/`（系统设计图）
+- `METRICS.md` 的 `## FINAL` 区块（v1 定稿数字，永不改）
+- `backend/ml/model.pkl` + `backend/ml/features.json`（v1 模型，与 v2 共存不覆盖）
 - `screenshots/`（项目配图）
 
 V2 实验一律写入 `METRICS.md` 新增的 `## V2-PRODUCT 实验区`（只追加）。
@@ -263,12 +263,12 @@ V2 实验一律写入 `METRICS.md` 新增的 `## V2-PRODUCT 实验区`（只追�
 
 ### 10.5 表结构变更（覆盖 §3 的确认流程）
 
-V2 新增 `t_alert` 表：SQL 已于计划评审时经用户批准（见 .trae/documents/V2产品化改造计划.md 第五节），走 alembic 迁移，不碰项目三表。
+V2 新增 `t_alert` 表：SQL 已于计划评审时经用户批准（见 .trae/documents/V2产品化改造计划.md 第五节），走 alembic 迁移，不碰 v1 三表。
 
 ### 10.6 记录规则
 
 - CHANGELOG/DECISIONS/TODO/METRICS 记录规则照旧：只追加、坏结果也记、【待填】不编造
-- METRICS：`## FINAL`（项目）与 `## V2-PRODUCT 实验区`（产品）分区，互不污染
+- METRICS：`## FINAL`（v1）与 `## V2-PRODUCT 实验区`（产品）分区，互不污染
 - DECISIONS：V2 每个二选一决策照记（含放弃的选项与代价）
 
 ---

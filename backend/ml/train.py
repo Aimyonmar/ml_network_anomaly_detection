@@ -173,7 +173,7 @@ def save_artifacts(pipe: Pipeline, features: list[str], metrics: dict,
         }
     FEATURES_JSON.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    # 混淆矩阵图（设计文档素材，按图号命名入 screenshots/）
+    # 混淆矩阵图（评估素材，按图号命名入 screenshots/）
     fig, ax = plt.subplots(figsize=(5, 4))
     im = ax.imshow(metrics["confusion_matrix"], cmap="Blues")
     ax.set_xticks([0, 1], ["Normal", "Attack"])
@@ -201,7 +201,7 @@ def save_artifacts(pipe: Pipeline, features: list[str], metrics: dict,
 def cross_test(pipe: Pipeline, test_path: str) -> dict:
     """跨集评估：用官方 KDDTest+ 测真实泛化能力。
 
-    随机划分（同分布）会高估精度；跨集才是设计文档该报的诚实数字。
+    随机划分（同分布）会高估精度；跨集才是对外该报的诚实数字。
     """
     dft = load_dataset(test_path)
     X = dft.drop(columns=[TARGET])

@@ -46,5 +46,5 @@ settings/npm-cache/*
 !settings/logs/.gitkeep
 !settings/npm-cache/.gitkeep
 
-# 项目文档（不提交到远程仓库）
+# 设计文档/评审等非项目文档（不提交到远程仓库）
 Graduation project/

@@ -1,4 +1,4 @@
-# playground independent deps (NOT part of design whitelist backend/requirements.txt)
+# playground independent deps (NOT part of the main project whitelist backend/requirements.txt)
 # Decision: DECISIONS.md 2026-10-12. Install:
 #   pip install -r playground/requirements-play.txt
 # Note: tsinghua mirror has no scapy; use default PyPI index.

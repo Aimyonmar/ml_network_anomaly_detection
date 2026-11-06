@@ -32,7 +32,7 @@ def _active_model_paths() -> tuple[Path, Path]:
     """按 MODEL_VERSION 返回 (model_path, features_path)。路径以 backend/ 为基准。"""
     if settings.MODEL_VERSION == "v2":
         return Path(settings.MODEL_PATH_V2), Path(settings.FEATURES_PATH_V2)
-    # v1：与 predict.py 默认值同源（ml/ 模块相对），保持项目链路零改动
+    # v1：与 predict.py 默认值同源（ml/ 模块相对），保持 v1 链路零改动
     return ml_predict.MODEL_PATH, ml_predict.FEATURES_PATH
 
 

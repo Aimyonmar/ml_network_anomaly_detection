@@ -248,7 +248,7 @@ V2 目标：从「v1 演示系统」升级为「可用的安全初筛产品」�
 
 在 product 分支上，以下资产**不改、不删、不引用其数字进 V2 对比口径以外的地方**：
 - `docs/api.md`（接口文档）
-- `docs/diagrams/`（系统设计图）
+- `docs/schema.sql`（数据库结构）
 - `METRICS.md` 的 `## FINAL` 区块（v1 定稿数字，永不改）
 - `backend/ml/model.pkl` + `backend/ml/features.json`（v1 模型，与 v2 共存不覆盖）
 - `screenshots/`（项目配图）

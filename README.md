@@ -203,7 +203,7 @@ frontend/
     stores/ router/    # Pinia（auth + alerts 红点轮询）+ 路由守卫
 docs/
   schema.sql / api.md  # 数据库与接口文档
-  diagrams/            # 系统设计图（架构 / 用例 / 时序 / E-R）
+  images-list.md       # 截图与图表索引
 scripts/auto_log.py    # 记录一致性校验
 ```
 
